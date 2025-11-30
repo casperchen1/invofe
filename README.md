@@ -8,11 +8,21 @@ A terminal based file explorer.
 - and more to come!
 ## Build Project
 1. Create a build folder at the project root directory
-`mkdir build`
-`cd build`
-2. Generate CmakeFiles
-`cmake ..`
-3. Build
-`cmake --build .`
-4. Execute
-`.\Debug\InvoFE.exe`
+```shell
+mkdir build
+```
+```shell
+cd build
+```
+3. Generate CmakeFiles
+```shell
+cmake ..
+```
+5. Build
+```shell
+cmake --build .
+```
+7. Execute
+```shell
+.\Debug\InvoFE.exe
+```
