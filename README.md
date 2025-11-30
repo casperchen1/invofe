@@ -2,6 +2,7 @@
 A terminal based file explorer.
 ## Demo
 ![demo](./resources/assets/demo.webp)
+![demo](./resources/assets/demo.gif)
 ## Features
 - File navigation
 - Display files
