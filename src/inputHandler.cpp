@@ -28,8 +28,8 @@ bool InputHandler::handleInput() {
             int row = _terminal.getCursorRow();
             if(row == t_pos.first) _view.scroll(-1);
 
-            _view.updateRow(row);
             _terminal.moveCursorUp(1);
+            _view.display();
             _view.highlightRow(_terminal.getCursorRow());
         }
         else if(input == INPUT_DOWN) { 
@@ -43,8 +43,9 @@ bool InputHandler::handleInput() {
                 return true;
             };
 
-            _view.updateRow(_terminal.getCursorRow());
             _terminal.moveCursorDown(1);
+            //std::cerr << _terminal.getCursorRow();
+            _view.display();
             _view.highlightRow(_terminal.getCursorRow());
         }
     }

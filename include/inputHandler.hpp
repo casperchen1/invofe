@@ -12,6 +12,8 @@ class InputHandler {
 public:
     static InputHandler& getInstance();
     InputHandler(const InputHandler&) = delete;
+    InputHandler& operator=(const InputHandler&) = delete;
+
     bool handleInput();
 private:
     InputHandler();

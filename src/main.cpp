@@ -5,11 +5,14 @@
 #include "Terminal.hpp"
 
 int main() {
+    std::ios_base::sync_with_stdio(0);
+    std::cin.tie(0);
+
     SetConsoleOutputCP(CP_UTF8);
     std::cerr << "\x1b[?1049h";
 
-    View& view = View::getInstance();
     Terminal& terminal = Terminal::getInstance();
+    View& view = View::getInstance();
     InputHandler& ihandler = InputHandler::getInstance();
 
     view.display();

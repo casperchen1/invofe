@@ -22,6 +22,7 @@ public:
     //Singleton instance
     static View& getInstance();
     View(const View&) = delete;
+    View& operator=(const View&) = delete;
 
     //Get the index of the top element in view
     int getTopIndex() const;
@@ -32,6 +33,7 @@ public:
     void update();
     void drawHeader() const;
     void drawFileList() const;
+    void drawMetaData() const;
     void drawOperations() const;
     //Scroll for n items, positive for scrolling down, negative for scrolling up
     void scroll(int n);
@@ -44,6 +46,7 @@ private:
     View();
     
     std::vector<std::string> _view_buffer;
+    std::vector<std::vector<std::string>> _metadata_view_buffer;
     int _top_index;
     Terminal& _terminal;
 };

@@ -32,7 +32,8 @@ public:
     void moveCursorDown(int n);
 
     //Update the _filename_buffer
-    void loadFileBuffer();
+    void loadFileNameBuffer();
+    void loadMetaDataBuffer();
 
     //Try to access the selected directory, takes in the index of the top element in view
     bool accessSelectedDir(int top_index);
@@ -46,6 +47,7 @@ friend View;
 
     //Stores the filenames in the current directory
     std::vector<std::string> _filename_buffer;
+    std::vector<std::vector<std::string>> _metadata_buffer;
 
     const int WIDTH = 60;
     const int HEIGHT = 20;
@@ -54,6 +56,14 @@ friend View;
     const int START_COLS = 1;
     const int END_COLS = START_COLS + WIDTH - 1;
     const char ICON = '>';
+
+    const int META_ATTRIBUTES = 4;
+    const int META_WIDTH = 61;
+    const int META_HEIGHT = META_ATTRIBUTES;
+    const int META_START_ROWS = END_ROWS + 2;
+    const int META_END_ROWS = META_START_ROWS + META_HEIGHT - 1;
+    const int META_START_COLS = 1;
+    const int META_END_COLS = META_START_COLS + META_WIDTH - 1;
     
     //Cursor position
     int _cursor_row;

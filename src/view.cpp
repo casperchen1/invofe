@@ -77,17 +77,29 @@ void View::updateRow(int n) {
 }
 
 void View::drawHeader() const {
+    int row = _terminal.getCursorRow();
+    int col = _terminal.getCursorCol();
+
+    _terminal.moveCursorTo(1, 1);
+
     std::cerr << BOX_TOP_LEFT + padString("", _terminal.WIDTH - 2, BOX_EDGE) + BOX_TOP_RIGHT + "\n";
     std::string path = _terminal._current_path;
     std::string paddedPath = padString(path, _terminal.WIDTH - 2);
     std::cerr << '|' << paddedPath << "|\n";
     std::cerr << BOX_BOTTOM_LEFT + padString("", _terminal.WIDTH - 2, BOX_EDGE) + BOX_BOTTOM_RIGHT + "\n";
+
+    _terminal.moveCursorTo(row, col);
 }
 
 void View::drawFileList() const {
     //
     //TODO: change color for folders
     //
+    int row0 = _terminal.getCursorRow();
+    int col0 = _terminal.getCursorCol();
+
+    _terminal.moveCursorTo(_terminal.START_ROWS, _terminal.START_COLS);
+
     int viewBufferSize = (int)_view_buffer.size();
     auto [row, col] = _terminal.getTerminalPosition();
     for(int i = 0; i < _terminal.HEIGHT; i++) {
@@ -101,6 +113,32 @@ void View::drawFileList() const {
     }
     _terminal.moveCursorTo(_terminal.END_ROWS + 1, col);
     std::cerr << BOX_BOTTOM_LEFT + padString("", _terminal.WIDTH - 2, BOX_EDGE) + BOX_BOTTOM_RIGHT + "\n";
+
+    _terminal.moveCursorTo(row0, col0);
+}
+
+void View::drawMetaData() const {
+    int row = _terminal.getCursorRow();
+    int col = _terminal.getCursorCol();
+
+    _terminal.moveCursorTo(_terminal.META_START_ROWS, _terminal.META_START_COLS);
+
+    int index = _top_index + row - _terminal.START_ROWS;
+
+    std::string tag = BOX_TOP_LEFT + std::string("| Metadata |");
+    tag = padString(tag, _terminal.META_WIDTH, BOX_EDGE) + BOX_TOP_RIGHT;
+    std::cerr << tag << "\n";
+
+    for(int i = 0; i < _terminal.META_ATTRIBUTES; i++) {
+        std::string line = "";
+        if(i < _terminal._metadata_buffer[index].size()) {
+            line = _terminal._metadata_buffer[index][i];
+        }
+
+        std::cerr << '|' << padString(line, _terminal.META_WIDTH - 3) << "|\n";
+    }
+    std::cerr << BOX_BOTTOM_LEFT << padString("", _terminal.META_WIDTH - 3, BOX_EDGE) << BOX_BOTTOM_RIGHT;
+    _terminal.moveCursorTo(row, col);
 }
 
 void View::drawOperations() const {
@@ -108,29 +146,31 @@ void View::drawOperations() const {
     int col = _terminal.getCursorRow();
     _terminal.moveCursorTo(_terminal.END_ROWS + 2, _terminal.START_COLS);
 
-    std::cerr << "[SPACE] SELECT  [UP] MOVE UP  [DOWN] MOVE DOWN  [ESC] EXIT";
+    //std::cerr << "[SPACE] SELECT  [UP] MOVE UP  [DOWN] MOVE DOWN  [ESC] EXIT";
 
     _terminal.moveCursorTo(row, col);
 }
 
 void View::display() const {
-    _terminal.moveCursorTo(1, 1);
-    drawHeader();
+    int row = _terminal.getCursorRow();
+    int col = _terminal.getCursorCol();
 
-    _terminal.moveCursorTo(_terminal.START_ROWS, _terminal.START_COLS);
+    drawHeader();
     drawFileList();
-    _terminal.moveCursorTo(_terminal.START_ROWS, _terminal.START_COLS);
-    drawOperations();
+    drawMetaData();
+    //drawOperations();
+
+    _terminal.moveCursorTo(row, col);
 }
 
 void View::update() {
+    _terminal.moveCursorTo(_terminal.START_ROWS, _terminal.START_COLS);
     updateViewBuffer(0, -1);
     _top_index = 0;
 
     display();
 
     highlightRow(_terminal.START_ROWS);
-    _terminal.moveCursorTo(_terminal.START_ROWS, _terminal.START_COLS);
 }
 
 void View::scroll(int n) {
