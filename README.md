@@ -1,7 +1,8 @@
 # InvoFE (in production)
-A terminal based file explorer.
+A terminal based file explorer for Windows.
 ## Demo
 ![demo](./resources/assets/demo.webp)
+![demo](./resources/assets/demo.gif)
 ## Features
 - File navigation
 - Display files
